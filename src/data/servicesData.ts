@@ -241,7 +241,7 @@ export const SERVICES_DATA: Record<string, ServiceInfo> = {
 export const COMPANY_DETAILS = {
   name: '1313 Pro Advisors Ltd',
   legalName: '1313 Pro Advisors Ltd',
-  registrationText: 'A direct business services provider registered in England & Wales.',
+  registrationText: 'A direct business services provider for UK companies.',
   email: 'enquiries@1313proadvisors.co.uk',
   phone: '+44 (0) 20 7946 0892',
   market: 'United Kingdom',

@@ -49,7 +49,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 Business Accountability
               </div>
               <p className="text-xs text-cream/70 leading-relaxed">
-                Registered in England &amp; Wales. Providing dedicated administrative operations directly to UK companies.
+                Providing dedicated administrative operations directly to UK companies.
               </p>
             </div>
           </div>
@@ -186,8 +186,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-cream/60">
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center sm:text-left">
             <span>&copy; {currentYear} {COMPANY_DETAILS.name}. All rights reserved.</span>
-            <span className="hidden sm:inline">&bull;</span>
-            <span>Registered in England &amp; Wales</span>
           </div>
 
           <div className="flex items-center gap-6">
@@ -205,6 +203,11 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               Get in Touch
             </button>
           </div>
+        </div>
+
+        {/* Developer Attribution Credit */}
+        <div className="mt-6 pt-4 border-t border-navy-light/30 text-center text-[11px] text-cream/40 tracking-wide select-none">
+          Developed by MyPaperTrail Co.
         </div>
       </div>
     </footer>

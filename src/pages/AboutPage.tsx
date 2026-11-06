@@ -34,7 +34,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onContactClick
       {/* ——— HERO ——— */}
       <section className="relative bg-cream pt-16 pb-20 lg:pt-24 lg:pb-28 overflow-hidden border-b border-cream-border">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-cream-ivory rounded-bl-[100px] hidden lg:block" />
-        <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-coral/60 via-coral/15 to-transparent" />
+        <div className="hidden sm:block absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-coral/60 via-coral/15 to-transparent" />
         <div className="absolute bottom-0 right-0 text-[180px] font-heading font-black text-navy/[0.03] select-none leading-none hidden lg:block pr-8">
           AB
         </div>
@@ -245,3 +245,4 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onContactClick
     </main>
   )
 }
+

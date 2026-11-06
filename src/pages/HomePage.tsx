@@ -55,10 +55,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onContactClick }
       >
         {/* Soft background composition */}
         <div className="absolute inset-0 pointer-events-none">
-          {/* Geometric top-right accent */}
-          <div className="absolute top-0 right-0 w-1/2 h-full bg-cream-ivory rounded-bl-[80px] lg:rounded-bl-[120px]" />
+          {/* Geometric top-right accent — desktop only to avoid background color splitting on mobile */}
+          <div className="hidden lg:block absolute top-0 right-0 w-1/2 h-full bg-cream-ivory rounded-bl-[120px]" />
           {/* Coral fine accent line */}
-          <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-coral/60 via-coral/20 to-transparent" />
+          <div className="hidden sm:block absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-coral/60 via-coral/20 to-transparent" />
           {/* Large decorative numeral watermark */}
           <div className="absolute bottom-0 right-6 text-[220px] font-heading font-black text-navy/[0.03] select-none leading-none hidden lg:block">
             13
@@ -254,11 +254,17 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onContactClick }
                       </div>
                     ))}
                   </div>
+
+                  {/* Mobile badge */}
+                  <div className="sm:hidden mt-6 pt-4 border-t border-navy-light/60 flex items-center justify-between text-xs text-coral font-medium">
+                    <span>UK Business Operations Partner</span>
+                    <span className="w-2 h-2 rounded-full bg-coral" />
+                  </div>
                 </div>
               </div>
 
-              {/* Floating accent badge below the card */}
-              <div className="absolute -bottom-5 right-6 bg-coral text-white text-xs font-heading font-bold px-5 py-2.5 rounded-xl shadow-elevated">
+              {/* Floating accent badge below the card — desktop/tablet only to prevent vertical overlap on mobile */}
+              <div className="hidden sm:block absolute -bottom-5 right-6 bg-coral text-white text-xs font-heading font-bold px-5 py-2.5 rounded-xl shadow-elevated">
                 UK Business Operations Partner
               </div>
             </div>
@@ -367,3 +373,4 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onContactClick }
     </main>
   )
 }
+

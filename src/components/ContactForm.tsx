@@ -174,7 +174,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   }
 
   return (
-    <div className={`bg-white rounded-2xl p-6 sm:p-8 lg:p-10 border border-cream-border shadow-card ${className}`}>
+    <div className={`bg-white rounded-2xl p-5 sm:p-8 lg:p-10 border border-cream-border shadow-card ${className}`}>
       
       {/* Form Intro Header */}
       <div className="mb-8">

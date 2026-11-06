@@ -4,20 +4,22 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>1313 Pro Advisors Ltd | Bookkeeping, Payroll & Back-Office Support for UK Businesses</title>
+    <title>1313 Pro Advisors Ltd | Bookkeeping &amp; Payroll Services UK</title>
     <meta
       name="description"
-      content="1313 Pro Advisors Ltd provides direct professional bookkeeping, payroll administration, timesheet management, and back-office support for UK businesses. Accurate, dependable, and confidential operational administration."
+      content="Professional bookkeeping, payroll, timesheet management and back-office support for UK businesses. Contact 1313 Pro Advisors Ltd to discuss your business needs."
     />
-    <meta name="keywords" content="bookkeeping UK, payroll administration UK, timesheet management, back-office services, business administration UK, 1313 Pro Advisors" />
+    <meta name="keywords" content="bookkeeping services UK, payroll services UK, timesheet management, back-office support for UK businesses, business administration services, 1313 Pro Advisors" />
     <meta name="author" content="1313 Pro Advisors Ltd" />
     <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://1313-pro-advisors.vercel.app/" />
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="1313 Pro Advisors Ltd | Professional UK Business Operations Support" />
-    <meta property="og:description" content="Dependable bookkeeping, payroll administration, timesheet management, and back-office services delivered directly to UK businesses." />
+    <meta property="og:title" content="1313 Pro Advisors Ltd | Bookkeeping &amp; Payroll Services UK" />
+    <meta property="og:description" content="Professional bookkeeping, payroll, timesheet management and back-office support for UK businesses. Contact 1313 Pro Advisors Ltd to discuss your business needs." />
     <meta property="og:site_name" content="1313 Pro Advisors Ltd" />
+    <meta property="og:url" content="https://1313-pro-advisors.vercel.app/" />
     <meta property="og:locale" content="en_GB" />
 
     <!-- Google Fonts: Manrope, DM Sans, Inter, Newsreader -->
@@ -30,10 +32,89 @@
 
     <!-- Theme Colors -->
     <meta name="theme-color" content="#14213D" />
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://1313-pro-advisors.vercel.app/#organization",
+          "name": "1313 Pro Advisors Ltd",
+          "url": "https://1313-pro-advisors.vercel.app/",
+          "logo": "https://1313-pro-advisors.vercel.app/favicon.svg",
+          "description": "Direct professional bookkeeping, payroll, timesheet management and back-office support for UK businesses.",
+          "email": "enquiries@1313proadvisors.co.uk",
+          "telephone": "+44 (0) 20 7946 0892",
+          "areaServed": {
+            "@type": "Country",
+            "name": "United Kingdom"
+          }
+        },
+        {
+          "@type": "ProfessionalService",
+          "@id": "https://1313-pro-advisors.vercel.app/#service",
+          "name": "1313 Pro Advisors Ltd",
+          "url": "https://1313-pro-advisors.vercel.app/",
+          "image": "https://1313-pro-advisors.vercel.app/favicon.svg",
+          "email": "enquiries@1313proadvisors.co.uk",
+          "telephone": "+44 (0) 20 7946 0892",
+          "areaServed": "United Kingdom",
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Business Administration Services",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Bookkeeping Services",
+                  "description": "Day-to-day transaction recording, ledger records and financial administration."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Payroll Administration",
+                  "description": "Routine payroll cycle support and employee record management."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Timesheet Management",
+                  "description": "Working hours recording, verification and workforce records."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Back-Office Services",
+                  "description": "Administrative support, operational workflows and business record management."
+                }
+              }
+            ]
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://1313-pro-advisors.vercel.app/#website",
+          "url": "https://1313-pro-advisors.vercel.app/",
+          "name": "1313 Pro Advisors Ltd",
+          "publisher": {
+            "@id": "https://1313-pro-advisors.vercel.app/#organization"
+          }
+        }
+      ]
+    }
+    </script>
   </head>
   <body class="bg-cream text-navy font-sans antialiased selection:bg-coral selection:text-white min-h-screen flex flex-col">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-

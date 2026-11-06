@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
-Sitemap: https://1313proadvisors.co.uk/sitemap.xml
 
+# Canonical XML Sitemap
+Sitemap: https://1313-pro-advisors.vercel.app/sitemap.xml

@@ -4,8 +4,8 @@ import { CheckCircle2, Shield, Clock, FileCheck, Layers } from 'lucide-react'
 export const EditorialHeroVisual: React.FC = () => {
   return (
     <div className="relative w-full max-w-lg mx-auto lg:max-w-none select-none">
-      {/* Decorative background framing */}
-      <div className="absolute -inset-4 bg-gradient-to-tr from-cream-soft via-cream-ivory to-cream rounded-3xl -rotate-1 border border-cream-border -z-10" />
+      {/* Decorative background framing — hidden on mobile to prevent overflow and color bleeding */}
+      <div className="hidden sm:block absolute -inset-4 bg-gradient-to-tr from-cream-soft via-cream-ivory to-cream rounded-3xl -rotate-1 border border-cream-border -z-10" />
       
       {/* Main architectural card container */}
       <div className="relative bg-white rounded-2xl border border-cream-border p-6 sm:p-8 shadow-card overflow-hidden">
@@ -137,8 +137,8 @@ export const EditorialHeroVisual: React.FC = () => {
         </div>
 
         {/* Floating Confidence Badge */}
-        <div className="absolute -bottom-2 -right-2 bg-coral text-white text-[11px] font-heading font-bold px-4 py-2 rounded-xl shadow-lg border border-white/20 flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4" />
+        <div className="absolute bottom-3 right-3 sm:-bottom-2 sm:-right-2 bg-coral text-white text-[11px] font-heading font-bold px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl shadow-lg border border-white/20 flex items-center gap-1.5 sm:gap-2">
+          <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           <span>UK Dedicated Team</span>
         </div>
       </div>

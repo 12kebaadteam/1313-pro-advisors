@@ -13,7 +13,7 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
     <main>
       {/* ——— HERO ——— */}
       <section className="relative bg-cream pt-16 pb-14 lg:pt-20 lg:pb-16 overflow-hidden border-b border-cream-border">
-        <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-coral/60 via-coral/15 to-transparent" />
+        <div className="hidden sm:block absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-coral/60 via-coral/15 to-transparent" />
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cream-soft border border-cream-border text-xs font-heading font-semibold uppercase tracking-widest text-navy mb-6">
             <Shield className="w-3.5 h-3.5 text-coral" />
@@ -27,7 +27,7 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
             This Privacy Policy sets out how 1313 Pro Advisors Ltd collects, uses, and protects personal data provided to us in connection with our business enquiry and service delivery activities.
           </p>
           <p className="text-xs text-warmGrey mt-4">
-            Last reviewed: November 2026 &nbsp;·&nbsp; Registered in England &amp; Wales
+            Last reviewed: November 2026
           </p>
         </div>
       </section>
@@ -44,7 +44,7 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
                   heading: '1. Who We Are',
                   content: (
                     <p>
-                      1313 Pro Advisors Ltd is registered in England &amp; Wales as a direct provider of bookkeeping, payroll administration, timesheet management, and back-office business support services. As a data controller, we are responsible for the personal data we collect and process in connection with our business operations and client service delivery. For enquiries relating to data protection, you may contact us at{' '}
+                      1313 Pro Advisors Ltd is a direct UK provider of bookkeeping, payroll administration, timesheet management, and back-office business support services. As a data controller, we are responsible for the personal data we collect and process in connection with our business operations and client service delivery. For enquiries relating to data protection, you may contact us at{' '}
                       <a href={`mailto:${COMPANY_DETAILS.email}`} className="text-coral hover:underline">
                         {COMPANY_DETAILS.email}
                       </a>.
@@ -74,7 +74,7 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
                         <li>To respond directly to business enquiries submitted via our contact form or email.</li>
                         <li>To provide and administer our direct bookkeeping, payroll, timesheet management, and back-office services.</li>
                         <li>To maintain operational records and communicate with existing clients regarding their service requirements.</li>
-                        <li>To fulfil our legal and contractual obligations as a service provider registered in England &amp; Wales.</li>
+                        <li>To fulfil our legal and contractual obligations as a direct business service provider.</li>
                       </ul>
                       <p className="mt-4">We do not use personal data for unsolicited marketing, automated profiling, or any purpose unrelated to the direct provision of our services.</p>
                     </div>
@@ -168,7 +168,7 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
           {/* Footer Navigation */}
           <div className="mt-14 pt-10 border-t border-cream-border flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="text-xs text-warmGrey">
-              &copy; {new Date().getFullYear()} {COMPANY_DETAILS.name}. Registered in England &amp; Wales.
+              &copy; {new Date().getFullYear()} {COMPANY_DETAILS.name}. All rights reserved.
             </div>
             <div className="flex gap-3">
               <Button variant="ghost" size="sm" onClick={() => onNavigate('contact')} icon={<ArrowRight className="w-3.5 h-3.5" />}>
@@ -184,3 +184,4 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
     </main>
   )
 }
+

@@ -24,24 +24,24 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, initialSer
   return (
     <main>
       {/* ——— HERO ——— */}
-      <section className="relative bg-cream pt-16 pb-20 lg:pt-24 lg:pb-28 overflow-hidden border-b border-cream-border">
+      <section className="relative bg-cream pt-10 pb-10 sm:pt-16 sm:pb-20 lg:pt-24 lg:pb-28 overflow-hidden border-b border-cream-border">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-cream-ivory rounded-bl-[100px] hidden lg:block" />
-        <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-coral/60 via-coral/15 to-transparent" />
+        <div className="hidden sm:block absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-coral/60 via-coral/15 to-transparent" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cream-soft border border-cream-border text-xs font-heading font-semibold uppercase tracking-widest text-navy mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cream-soft border border-cream-border text-xs font-heading font-semibold uppercase tracking-widest text-navy mb-4 sm:mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-coral flex-shrink-0" />
               Direct UK Business Enquiries
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-extrabold text-navy tracking-tight leading-[1.08] mb-5">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-heading font-extrabold text-navy tracking-tight leading-[1.08] mb-3 sm:mb-5">
               Let's Make Your Business Operations Simpler.
             </h1>
 
-            <div className="w-14 h-1 bg-coral rounded-full mb-6" />
+            <div className="w-14 h-1 bg-coral rounded-full mb-4 sm:mb-6" />
 
-            <p className="text-navy/70 text-base sm:text-lg leading-relaxed max-w-2xl">
+            <p className="text-navy/70 text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl">
               Discuss your bookkeeping, payroll, timesheet management, or back-office requirements directly with our UK administrative team. All enquiries are treated with strict confidentiality.
             </p>
           </div>
@@ -49,12 +49,17 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, initialSer
       </section>
 
       {/* ——— CONTACT BODY ——— */}
-      <section className="py-20 lg:py-28 bg-cream">
+      <section className="py-8 sm:py-16 lg:py-24 bg-cream">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-14 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12 lg:gap-14 items-start">
 
-            {/* LEFT SIDEBAR — Contact Details */}
-            <div className="space-y-6">
+            {/* FORM WRAPPER — Order 1 on mobile (first!), Order 2 on desktop (right col-span-2) */}
+            <div className="order-1 lg:order-2 lg:col-span-2">
+              <ContactForm initialService={initialService || 'Bookkeeping'} />
+            </div>
+
+            {/* SIDEBAR — Order 2 on mobile (after form), Order 1 on desktop (left col-span-1) */}
+            <div className="order-2 lg:order-1 lg:col-span-1 space-y-6">
 
               {/* What to Expect */}
               <div className="bg-navy rounded-2xl p-7 text-cream">
@@ -152,11 +157,6 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, initialSer
 
             </div>
 
-            {/* RIGHT — Contact Form (2 col span) */}
-            <div className="lg:col-span-2">
-              <ContactForm initialService={initialService || 'Bookkeeping'} />
-            </div>
-
           </div>
         </div>
       </section>
@@ -186,3 +186,4 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, initialSer
     </main>
   )
 }
+

@@ -56,7 +56,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
       {/* ——— SERVICE HERO ——— */}
       <section className="relative bg-cream pt-16 pb-20 lg:pt-24 lg:pb-28 overflow-hidden border-b border-cream-border">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-cream-ivory rounded-bl-[100px] hidden lg:block" />
-        <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-coral/60 via-coral/15 to-transparent" />
+        <div className="hidden sm:block absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-coral/60 via-coral/15 to-transparent" />
         <div className="absolute bottom-0 right-0 text-[160px] font-heading font-black text-navy/[0.025] select-none leading-none hidden lg:block pr-6">
           {service.id === 'bookkeeping' ? 'BK' : service.id === 'payroll' ? 'PR' : service.id === 'timesheet-management' ? 'TS' : 'BO'}
         </div>
@@ -287,3 +287,4 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
     </main>
   )
 }
+
