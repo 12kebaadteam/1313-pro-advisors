@@ -129,6 +129,12 @@ function updatePageMetadata(page: PageId) {
   const ogUrl = document.querySelector('meta[property="og:url"]')
   if (ogUrl) ogUrl.setAttribute('content', canonicalUrl)
 
+  const ogImg = document.querySelector('meta[property="og:image"]')
+  if (ogImg) ogImg.setAttribute('content', `${BASE_URL}/og-image.png`)
+
+  const twitterImg = document.querySelector('meta[name="twitter:image"]')
+  if (twitterImg) twitterImg.setAttribute('content', `${BASE_URL}/og-image.png`)
+
   // Dynamic Breadcrumbs Structured Data
   let breadcrumbScript = document.getElementById('schema-breadcrumb')
   if (breadcrumbScript) breadcrumbScript.remove()
