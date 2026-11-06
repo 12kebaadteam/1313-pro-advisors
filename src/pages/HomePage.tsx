@@ -51,7 +51,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onContactClick }
       {/* ============================================================ */}
       <section
         ref={heroReveal.ref}
-        className={`relative min-h-[88vh] flex items-center bg-cream overflow-hidden transition-opacity duration-700 ${heroReveal.visible ? 'opacity-100' : 'opacity-0'}`}
+        className={`relative min-h-0 md:min-h-[88vh] flex items-center bg-cream overflow-hidden transition-opacity duration-700 ${heroReveal.visible ? 'opacity-100' : 'opacity-0'}`}
       >
         {/* Soft background composition */}
         <div className="absolute inset-0 pointer-events-none">
@@ -135,16 +135,16 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onContactClick }
               </div>
             </div>
 
-            {/* RIGHT — Editorial Visual Composition */}
-            <div className="relative flex items-center justify-center lg:justify-end">
+            {/* RIGHT — Editorial Visual Composition — hidden on mobile */}
+            <div className="hidden md:flex relative items-center justify-center lg:justify-end">
               <EditorialHeroVisual />
             </div>
 
           </div>
         </div>
 
-        {/* Bottom scroll indicator */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-navy/40 animate-bounce">
+        {/* Bottom scroll indicator — hidden on mobile when visual is hidden */}
+        <div className="hidden md:flex absolute bottom-6 left-1/2 -translate-x-1/2 flex-col items-center gap-1 text-navy/40 animate-bounce">
           <span className="text-[10px] uppercase tracking-widest font-medium">Scroll</span>
           <ChevronDown className="w-4 h-4" />
         </div>
