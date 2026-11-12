@@ -242,7 +242,7 @@ export const COMPANY_DETAILS = {
   name: '1313 Pro Advisors Ltd',
   legalName: '1313 Pro Advisors Ltd',
   registrationText: 'A direct business services provider for UK companies.',
-  email: 'enquiries@1313proadvisors.co.uk',
+  email: 'office@1313proadvisors.ltd',
   phone: '+44 (0) 20 7946 0892',
   market: 'United Kingdom',
   operatingHours: 'Monday – Friday, 08:30 – 17:30 GMT',

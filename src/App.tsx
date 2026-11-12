@@ -8,7 +8,7 @@ import { ServiceDetailPage } from './pages/ServiceDetailPage'
 import { ContactPage } from './pages/ContactPage'
 import { PrivacyPage } from './pages/PrivacyPage'
 
-const BASE_URL = 'https://1313-pro-advisors.vercel.app'
+const BASE_URL = import.meta.env.VITE_SITE_URL || 'https://1313proadvisors.ltd'
 
 // Route to Path mapping
 function getPathForPage(page: PageId): string {
