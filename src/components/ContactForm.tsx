@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
 import { ContactFormData } from '../types'
 import { Button } from './Button'
-import { COMPANY_DETAILS } from '../data/servicesData'
 import { 
   Send, 
   CheckCircle2, 
   AlertCircle, 
-  Mail, 
-  Phone, 
   ShieldCheck, 
   Copy, 
-  Check 
+  Check,
+  Loader2,
+  Mail
 } from 'lucide-react'
 
 interface ContactFormProps {
@@ -32,7 +31,11 @@ export const ContactForm: React.FC<ContactFormProps> = ({
     consent: false,
   })
 
+  // Honeypot field (hidden from legitimate visitors to trap spam bots)
+  const [honeypot, setHoneypot] = useState('')
+
   const [errors, setErrors] = useState<Partial<Record<keyof ContactFormData, string>>>({})
+  const [apiError, setApiError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submissionSuccess, setSubmissionSuccess] = useState(false)
   const [referenceId, setReferenceId] = useState('')
@@ -41,19 +44,19 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   const validate = (): boolean => {
     const newErrors: Partial<Record<keyof ContactFormData, string>> = {}
 
-    if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Full Name is required.'
+    if (!formData.fullName.trim() || formData.fullName.trim().length < 2) {
+      newErrors.fullName = 'Full Name is required (at least 2 characters).'
     }
-    if (!formData.businessName.trim()) {
-      newErrors.businessName = 'Business Name is required.'
+    if (!formData.businessName.trim() || formData.businessName.trim().length < 2) {
+      newErrors.businessName = 'Business Name is required (at least 2 characters).'
     }
     if (!formData.businessEmail.trim()) {
       newErrors.businessEmail = 'Business Email is required.'
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.businessEmail)) {
       newErrors.businessEmail = 'Please provide a valid email address.'
     }
-    if (!formData.telephone.trim()) {
-      newErrors.telephone = 'Telephone Number is required.'
+    if (!formData.telephone.trim() || formData.telephone.trim().length < 5) {
+      newErrors.telephone = 'A valid telephone number is required.'
     }
     if (!formData.serviceRequired) {
       newErrors.serviceRequired = 'Please select a service.'
@@ -69,21 +72,54 @@ export const ContactForm: React.FC<ContactFormProps> = ({
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setApiError(null)
+
     if (!validate()) return
+
+    // Prevent duplicate submissions
+    if (isSubmitting) return
 
     setIsSubmitting(true)
 
-    // Generate unique inquiry reference
-    const uniqueRef = `1313-ENQ-${Date.now().toString().slice(-6)}`
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          ...formData,
+          website: honeypot // Honeypot trap
+        })
+      })
 
-    // Simulate direct dispatch processing
-    setTimeout(() => {
-      setIsSubmitting(false)
-      setReferenceId(uniqueRef)
+      const data = await response.json().catch(() => null)
+
+      if (!response.ok || !data?.success) {
+        if (data?.validationErrors) {
+          setErrors(data.validationErrors)
+        }
+        setApiError(
+          data?.error || 
+          'We were unable to deliver your enquiry automatically. Please verify your entries or contact office@1313proadvisors.ltd directly.'
+        )
+        setIsSubmitting(false)
+        return
+      }
+
+      // Success
+      setReferenceId(data.referenceId || `1313-ENQ-${Date.now().toString().slice(-6)}`)
       setSubmissionSuccess(true)
-    }, 600)
+      setIsSubmitting(false)
+    } catch (err: any) {
+      setApiError(
+        'Unable to connect to the enquiry service. Please check your internet connection or email office@1313proadvisors.ltd directly.'
+      )
+      setIsSubmitting(false)
+    }
   }
 
   const handleCopySummary = () => {
@@ -93,11 +129,21 @@ export const ContactForm: React.FC<ContactFormProps> = ({
     setTimeout(() => setCopied(false), 2500)
   }
 
-  const mailtoLink = `mailto:${COMPANY_DETAILS.email}?subject=${encodeURIComponent(
-    `Direct Service Enquiry [${referenceId || '1313'}] - ${formData.businessName}`
-  )}&body=${encodeURIComponent(
-    `Dear 1313 Pro Advisors Ltd,\n\nI would like to discuss direct administrative support for our business:\n\nContact Name: ${formData.fullName}\nBusiness Name: ${formData.businessName}\nEmail: ${formData.businessEmail}\nPhone: ${formData.telephone}\nService Required: ${formData.serviceRequired}\n\nEnquiry Details:\n${formData.message}\n\nEnquiry Reference: ${referenceId}`
-  )}`
+  const handleResetForm = () => {
+    setSubmissionSuccess(false)
+    setApiError(null)
+    setErrors({})
+    setFormData({
+      fullName: '',
+      businessName: '',
+      businessEmail: '',
+      telephone: '',
+      serviceRequired: initialService,
+      message: '',
+      consent: false,
+    })
+    setHoneypot('')
+  }
 
   if (submissionSuccess) {
     return (
@@ -113,7 +159,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
         <p className="text-warmGrey text-sm text-center mb-6 max-w-md mx-auto leading-relaxed">
           Thank you, <strong className="text-navy">{formData.fullName}</strong>. Your enquiry for{' '}
           <strong className="text-navy">{formData.businessName}</strong> regarding{' '}
-          <strong className="text-navy">{formData.serviceRequired}</strong> has been logged directly with our UK administrative desk.
+          <strong className="text-navy">{formData.serviceRequired}</strong> has been emailed directly to our UK administrative desk at <strong className="text-navy">office@1313proadvisors.ltd</strong>.
         </p>
 
         {/* Reference Number Box */}
@@ -121,7 +167,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
           <div className="flex items-center justify-between text-xs text-warmGrey mb-1">
             <span className="font-semibold uppercase tracking-wider">Inquiry Reference Number</span>
             <span className="text-emerald-700 font-medium flex items-center gap-1">
-              <ShieldCheck className="w-3.5 h-3.5" /> Logged
+              <ShieldCheck className="w-3.5 h-3.5" /> Delivered &amp; Logged
             </span>
           </div>
           <div className="flex items-center justify-between">
@@ -138,29 +184,10 @@ export const ContactForm: React.FC<ContactFormProps> = ({
 
         {/* Action Buttons */}
         <div className="space-y-3">
-          <a
-            href={mailtoLink}
-            className="w-full inline-flex items-center justify-center gap-2 bg-coral text-white font-heading font-semibold py-3 px-5 rounded-lg hover:bg-coral-hover transition-colors text-sm"
-          >
-            <Mail className="w-4 h-4" />
-            <span>Open in Your Email Client (Direct Confirmation)</span>
-          </a>
-
           <Button
             variant="secondary"
             fullWidth
-            onClick={() => {
-              setSubmissionSuccess(false)
-              setFormData({
-                fullName: '',
-                businessName: '',
-                businessEmail: '',
-                telephone: '',
-                serviceRequired: 'Bookkeeping',
-                message: '',
-                consent: false,
-              })
-            }}
+            onClick={handleResetForm}
           >
             Submit Another Enquiry
           </Button>
@@ -190,8 +217,33 @@ export const ContactForm: React.FC<ContactFormProps> = ({
         </p>
       </div>
 
+      {/* Global Error Alert Banner */}
+      {apiError && (
+        <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 text-sm flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+          <div className="flex-1">
+            <p className="font-semibold mb-1">Enquiry Submission Alert</p>
+            <p className="text-xs leading-relaxed">{apiError}</p>
+          </div>
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="space-y-5" noValidate>
         
+        {/* Honeypot field (hidden from humans, catches automated bots) */}
+        <div className="opacity-0 absolute -left-[9999px] -top-[9999px]" aria-hidden="true" tabIndex={-1}>
+          <label htmlFor="website">Website</label>
+          <input
+            id="website"
+            type="text"
+            name="website"
+            autoComplete="off"
+            value={honeypot}
+            onChange={(e) => setHoneypot(e.target.value)}
+            tabIndex={-1}
+          />
+        </div>
+
         {/* Name & Business Name Row */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
@@ -200,10 +252,11 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             </label>
             <input
               type="text"
+              disabled={isSubmitting}
               value={formData.fullName}
               onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
               placeholder="e.g. Eleanor Vance"
-              className={`w-full px-4 py-2.5 rounded-lg border text-sm text-navy bg-cream-ivory focus:bg-white focus:outline-none transition-colors ${
+              className={`w-full px-4 py-2.5 rounded-lg border text-sm text-navy bg-cream-ivory focus:bg-white focus:outline-none transition-colors disabled:opacity-60 ${
                 errors.fullName ? 'border-coral ring-1 ring-coral' : 'border-cream-border focus:border-navy'
               }`}
             />
@@ -221,10 +274,11 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             </label>
             <input
               type="text"
+              disabled={isSubmitting}
               value={formData.businessName}
               onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
               placeholder="e.g. Vantage Logistical Ltd"
-              className={`w-full px-4 py-2.5 rounded-lg border text-sm text-navy bg-cream-ivory focus:bg-white focus:outline-none transition-colors ${
+              className={`w-full px-4 py-2.5 rounded-lg border text-sm text-navy bg-cream-ivory focus:bg-white focus:outline-none transition-colors disabled:opacity-60 ${
                 errors.businessName ? 'border-coral ring-1 ring-coral' : 'border-cream-border focus:border-navy'
               }`}
             />
@@ -245,10 +299,11 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             </label>
             <input
               type="email"
+              disabled={isSubmitting}
               value={formData.businessEmail}
               onChange={(e) => setFormData({ ...formData, businessEmail: e.target.value })}
               placeholder="e.g. director@company.co.uk"
-              className={`w-full px-4 py-2.5 rounded-lg border text-sm text-navy bg-cream-ivory focus:bg-white focus:outline-none transition-colors ${
+              className={`w-full px-4 py-2.5 rounded-lg border text-sm text-navy bg-cream-ivory focus:bg-white focus:outline-none transition-colors disabled:opacity-60 ${
                 errors.businessEmail ? 'border-coral ring-1 ring-coral' : 'border-cream-border focus:border-navy'
               }`}
             />
@@ -266,10 +321,11 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             </label>
             <input
               type="tel"
+              disabled={isSubmitting}
               value={formData.telephone}
               onChange={(e) => setFormData({ ...formData, telephone: e.target.value })}
               placeholder="e.g. +44 20 7946 0000"
-              className={`w-full px-4 py-2.5 rounded-lg border text-sm text-navy bg-cream-ivory focus:bg-white focus:outline-none transition-colors ${
+              className={`w-full px-4 py-2.5 rounded-lg border text-sm text-navy bg-cream-ivory focus:bg-white focus:outline-none transition-colors disabled:opacity-60 ${
                 errors.telephone ? 'border-coral ring-1 ring-coral' : 'border-cream-border focus:border-navy'
               }`}
             />
@@ -288,9 +344,10 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             Service Required <span className="text-coral">*</span>
           </label>
           <select
+            disabled={isSubmitting}
             value={formData.serviceRequired}
             onChange={(e) => setFormData({ ...formData, serviceRequired: e.target.value })}
-            className={`w-full px-4 py-2.5 rounded-lg border text-sm text-navy bg-cream-ivory focus:bg-white focus:outline-none transition-colors ${
+            className={`w-full px-4 py-2.5 rounded-lg border text-sm text-navy bg-cream-ivory focus:bg-white focus:outline-none transition-colors disabled:opacity-60 ${
               errors.serviceRequired ? 'border-coral ring-1 ring-coral' : 'border-cream-border focus:border-navy'
             }`}
           >
@@ -316,10 +373,11 @@ export const ContactForm: React.FC<ContactFormProps> = ({
           </label>
           <textarea
             rows={4}
+            disabled={isSubmitting}
             value={formData.message}
             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
             placeholder="Please outline your current setup, frequency of support needed (e.g., weekly payroll, daily transactions), or key operational bottlenecks..."
-            className={`w-full px-4 py-2.5 rounded-lg border text-sm text-navy bg-cream-ivory focus:bg-white focus:outline-none transition-colors resize-none ${
+            className={`w-full px-4 py-2.5 rounded-lg border text-sm text-navy bg-cream-ivory focus:bg-white focus:outline-none transition-colors resize-none disabled:opacity-60 ${
               errors.message ? 'border-coral ring-1 ring-coral' : 'border-cream-border focus:border-navy'
             }`}
           />
@@ -336,9 +394,10 @@ export const ContactForm: React.FC<ContactFormProps> = ({
           <label className="flex items-start gap-3 cursor-pointer group">
             <input
               type="checkbox"
+              disabled={isSubmitting}
               checked={formData.consent}
               onChange={(e) => setFormData({ ...formData, consent: e.target.checked })}
-              className="mt-1 w-4 h-4 rounded border-cream-border text-coral focus:ring-coral focus:ring-offset-cream"
+              className="mt-1 w-4 h-4 rounded border-cream-border text-coral focus:ring-coral focus:ring-offset-cream disabled:opacity-60"
             />
             <span className="text-xs text-warmGrey leading-relaxed select-none">
               I consent to 1313 Pro Advisors Ltd collecting and processing my details to respond to this business enquiry in accordance with UK Data Protection and our Privacy Policy. Information is never shared with third parties.
@@ -360,7 +419,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             size="lg"
             fullWidth
             disabled={isSubmitting}
-            icon={<Send className="w-4 h-4" />}
+            icon={isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
           >
             {isSubmitting ? 'Registering Enquiry...' : 'Submit Business Enquiry'}
           </Button>
@@ -375,4 +434,3 @@ export const ContactForm: React.FC<ContactFormProps> = ({
     </div>
   )
 }
-
